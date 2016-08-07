@@ -1,0 +1,27 @@
+'N'       ! atom name
+7         ! nuclear charge
+1 1 1 0    ! number unoccupied orbit
+2d0 'c'    ! 1s occupation & state
+2d0 'v'    ! 2s occupation & state
+3d0 'v'    ! 2p occupation & state
+0d0 'n'    ! 3s occupation & state
+0d0 'n'    ! 3p occupation & state
+0d0 'n'    ! 3d occupation & state
+0d0 'n'    ! 4s occupation & state
+0d0 'n'    ! 4p occupation & state
+0d0 'n'    ! 4d occupation & state
+0d0 'n'    ! 4f occupation & state
+0d0 'n'    ! 5s occupation & state
+0d0 'n'    ! 5p occupation & state
+0d0 'n'    ! 5d occupation & state
+0d0 'n'    ! 6s occupation & state
+0d0 'n'    ! 6p occupation & state
+0.03125d0 ! Dx
+512       ! Nx = 16/Dx
+60d0       ! Rmax
+1d-6       ! rho_cut
+400        ! Nscf 
+
+
+
+
