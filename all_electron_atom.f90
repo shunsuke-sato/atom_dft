@@ -84,7 +84,7 @@ program main
   end do
 
   call calc_total_energy
-  write(*,"(A,2x,f12.4)")'Total energy (a.u.)',total_energy
+  write(*,"(A,2x,f12.4)")'Total energy (a.u.) and (eV)',total_energy,total_energy*2d0*Ry
   do p=1,Nupsi
     write(*,"(I5,2x,A,2x,f14.6,2x,f16.4)")p,name_upsi(p),esp(p),esp(p)*2d0*Ry
   end do
