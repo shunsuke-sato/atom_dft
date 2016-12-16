@@ -4,7 +4,7 @@ Ba = 0.529
 eV = 27.2
 set sample 1000
 
-set xrange [0:10]
+set xrange [0:4]
 
 
 set xlabel "Radius ({\305})"
