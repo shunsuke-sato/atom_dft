@@ -106,6 +106,9 @@ subroutine prep_calc_parameter
   implicit none
   integer i,j,ix,m
   real(8) :: a,c,rc
+  real(8) :: cpp0,cpp2,cpp4,cpp6,cpp8,cpp10,cpp12
+  real(8) :: rr, V_PP
+  real(8) :: P1_r, P2, P1
   
   call prep_orbit_L
   
@@ -195,8 +198,26 @@ subroutine prep_calc_parameter
   allocate(VL(0:Nx),Vnucl(0:Nx))
   
   Vnucl(1:Nx)=-dble(ZA)/rL(1:Nx);Vnucl(0)=0d0
-!  rc = 2d0
-!  a = 0.5d0*dble(ZA)/rc**2
+  
+  open(30,file="tm_coeff.out")
+  read(30,*)rc,cpp0,cpp2,cpp4,cpp6,cpp8,cpp10,cpp12
+  close(30)
+
+  do ix = 1,Nx
+     if(rL(ix) <= rc)then
+        rr = rL(ix)
+        P1_r = 2d0*cpp2 + 4d0*cpp4*rr**2 + 6d0*cpp6*rr**4 + 8d0*cpp8*rr**6 &
+              +10d0*cpp10*rr**8 + 12d0*cpp12*rr**10
+        P1 = P1_r*rr
+        P2 = 2d0*cpp2 + 12d0*cpp4*rr**2 + 30d0*cpp6*rr**4 + 56d0*cpp8*rr**6 &
+             +90d0*cpp10*rr**8 + 132d0*cpp12*rr**10
+        V_PP = -0.5d0*dble(ZA)**2 +P1_r +0.5d0*(P2 + P1**2)        
+        Vnucl(ix) = V_PP
+     end if
+  end do
+  
+!  rc = 0.40d0 
+!  a = 0.5d0*dble(ZA)/rc**3
 !  c = -a*rc**2-dble(ZA)/rc
 !  do ix = 1,Nx
 !     if(rL(ix) <= rc)Vnucl(ix) = a*rL(ix)**2+c

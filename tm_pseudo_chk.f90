@@ -47,11 +47,11 @@ program main
   implicit none
 
   ! ps parameteres
-  Znucl = 1d0
+  Znucl = 6d0
   r_c = 0.1d0
 
-  !  call parameter_search
-    call parameter_search_TM_mod
+!  call parameter_search
+  call parameter_search_TM_mod
   call write_output
   
   
@@ -344,13 +344,14 @@ subroutine calc_norm(norm)
   implicit none
   real(8),intent(out)  :: norm
   integer,parameter :: Nr_norm = 10000
-  real(8) :: rr, dr, R_PP, R_AE
+  real(8) :: rr, dr, R_PP, R_AE, norm0
   integer :: ir
 
 
   dr = r_c/Nr_norm
   
   norm = 0d0
+  norm0 = 0d0
   do ir = 1,Nr_norm-1
      rr = dr*ir
      R_AE = sqrt(4d0*Znucl**3)*exp(-Znucl*rr)
@@ -358,6 +359,7 @@ subroutine calc_norm(norm)
               + cpp8*rr**8 + cpp10*rr**10 + cpp12*rr**12)
      
      norm = norm + dr*rr**2*(R_PP**2 - R_AE**2)
+     norm0 = norm0 + dr*rr**2*R_AE**2
   end do
   rr = dr*Nr_norm
   R_AE = sqrt(4d0*Znucl**3)*exp(-Znucl*rr)
@@ -365,6 +367,9 @@ subroutine calc_norm(norm)
            + cpp8*rr**8 + cpp10*rr**10 + cpp12*rr**12)
   
   norm = norm + 0.5d0*dr*rr**2*(R_PP**2 - R_AE**2)
+  norm0 = norm0 + 0.5d0*dr*rr**2*R_AE**2
+
+  norm = norm/norm0
   
 
 end subroutine calc_norm
@@ -409,7 +414,9 @@ subroutine write_output
   end do
   close(20)
   
-
+  open(30,file="tm_coeff.out")
+  write(30,"(999e26.16e3)")r_c,cpp0,cpp2,cpp4,cpp6,cpp8,cpp10,cpp12
+  close(30)
   
 end subroutine write_output
 !-----------------------------------------------------------------!
