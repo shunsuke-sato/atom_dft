@@ -105,6 +105,7 @@ subroutine prep_calc_parameter
   use global_variables
   implicit none
   integer i,j,ix,m
+  real(8) :: a,c,rc
   
   call prep_orbit_L
   
@@ -194,6 +195,13 @@ subroutine prep_calc_parameter
   allocate(VL(0:Nx),Vnucl(0:Nx))
   
   Vnucl(1:Nx)=-dble(ZA)/rL(1:Nx);Vnucl(0)=0d0
+!  rc = 2d0
+!  a = 0.5d0*dble(ZA)/rc**2
+!  c = -a*rc**2-dble(ZA)/rc
+!  do ix = 1,Nx
+!     if(rL(ix) <= rc)Vnucl(ix) = a*rL(ix)**2+c
+!  end do
+  
   VL(1:Nx)=0.5d0/(rL(1:Nx)**2);VL(0)=0d0
   
   return
